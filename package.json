@@ -1,0 +1,42 @@
+{
+  "name": "user-testing-app",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build:client": "node build.ts",
+    "build:server": "esbuild server/server.tsx --bundle --outfile=build/server.js --platform=node",
+    "build": "npm run build:client && npm run build:server",
+    "start": "npm run build:client && npm run build:server && nodemon ./build/server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "connect-pg-simple": "^9.0.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "express-session": "^1.18.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.11.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/connect-pg-simple": "^7.0.3",
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
+    "@types/node": "^20.11.26",
+    "@types/passport": "^1.0.16",
+    "@types/passport-google-oauth20": "^2.0.14",
+    "@types/passport-local": "^1.0.38",
+    "@types/pg": "^8.11.2",
+    "@types/react": "^18.2.65",
+    "@types/react-dom": "^18.2.21",
+    "esbuild": "^0.20.1",
+    "esbuild-plugin-css-modules": "^0.3.0",
+    "esbuild-sass-plugin": "^3.1.0",
+    "typescript": "^5.4.2"
+  }
+}
