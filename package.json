@@ -6,7 +6,7 @@
     "build:client": "node build.ts",
     "build:server": "esbuild server/server.tsx --bundle --outfile=build/server.js --platform=node",
     "build": "npm run build:client && npm run build:server",
-    "start": "npm run build:client && npm run build:server && nodemon ./build/server.js"
+    "start": "npm run build:client && npm run build:server && node ./build/server.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
