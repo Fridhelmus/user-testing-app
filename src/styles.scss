@@ -79,8 +79,7 @@ svg {
 }
 
 #header,
-#footer
-{
+#footer {
   background-color: $primary-color;
   color: #fff;
 }
@@ -119,7 +118,7 @@ svg {
   input[type='email'],
   input[type='password'] {
     padding: 0.5rem;
-    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
     border-radius: 0.25rem;
     border: 1px solid $text-light;
   }
@@ -139,19 +138,57 @@ svg {
   }
 }
 
-.listdetail-item {
-  background-color: #edebeb;
-  border: 1px solid $text-light;
-  padding: 0px 24px;
-  width: 24em;
+.signin-signup-button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: thick double #32a1ce;
+  background-color: $primary-color;
+  color: #fff;
   cursor: pointer;
-  font-size: x-large;
-  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
 }
 
-.listdetail-item:hover,
-.listdetail-item:active {
-  background-color: #88cbd1;
+.modal {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12%;
+  height: 20%;
+  background: lighten($primary-color, 10%);
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal form input {
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 16px;
+  color: $text-dark;
+}
+
+.modal form button {
+  padding: 10px;
+  font-size: 16px;
+  background-color: $primary-color;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 80%;
+}
+
+.modal form button:hover {
+  background-color: #45a049;
 }
 
 #footer {

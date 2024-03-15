@@ -1,10 +1,24 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { IAuthContext, AuthContext } from '../context/AuthContext'
+import Modal from 'react-modal'
+
+Modal.setAppElement('#root')
 
 const Header: React.FC = () => {
   const { user, setUser } = useContext<IAuthContext>(AuthContext)
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [isLogin, setIsLogin] = useState(true)
 
-  const handleReg = async (event: React.FormEvent<HTMLFormElement>) => {
+  const openModal = (login: boolean) => {
+    setIsLogin(login)
+    setModalIsOpen(true)
+  }
+
+  const closeModal = () => {
+    setModalIsOpen(false)
+  }
+
+  const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const target = event.target as typeof event.target & {
       email: { value: string }
@@ -21,9 +35,9 @@ const Header: React.FC = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-          email: email,
-          password: password,
-          passwordConfirmation: confirmPassword,
+        email: email,
+        password: password,
+        passwordConfirmation: confirmPassword,
       }),
     })
 
@@ -34,7 +48,7 @@ const Header: React.FC = () => {
     }
   }
 
-  const handleLog = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const target = event.target as typeof event.target & {
       email: { value: string }
@@ -61,7 +75,6 @@ const Header: React.FC = () => {
     }
   }
 
-
   return (
     <header id='header'>
       <div className='container'>
@@ -71,21 +84,41 @@ const Header: React.FC = () => {
             <p>Welcome, {user}!</p>
           ) : (
             <>
-              <form className='nav_menu' onSubmit={handleReg}>
-                <input type='email' placeholder='Email' name='email' />
-                <input type='password' placeholder='Password' name='password' />
-                <input
-                  type='password'
-                  placeholder='Confirm Password'
-                  name='confirmPassword'
-                />
-                <button type='submit'>SIGN IN</button>
-              </form>
-              <form className='nav_menu' onSubmit={handleLog}>
-                <input type='email' placeholder='Email' name='email' />
-                <input type='password' placeholder='Password' name='password' />
-                <button type='submit'>LOGIN</button>
-              </form>
+              <button
+                className='signin-signup-button'
+                onClick={() => openModal(false)}>
+                SIGN UP
+              </button>
+              <button
+                className='signin-signup-button'
+                onClick={() => openModal(true)}>
+                SIGN IN
+              </button>{' '}
+              <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                className='modal'>
+                <form
+                  className='nav_menu column'
+                  onSubmit={isLogin ? handleSignIn : handleSignUp}>
+                  <input type='email' placeholder='Email' name='email' />
+                  <input
+                    type='password'
+                    placeholder='Password'
+                    name='password'
+                  />
+                  {isLogin ? null : (
+                    <input
+                      type='password'
+                      placeholder='Confirm Password'
+                      name='confirmPassword'
+                    />
+                  )}
+                  <button type='submit'>
+                    {isLogin ? 'SIGN IN' : 'SIGN UP'}
+                  </button>
+                </form>
+              </Modal>
             </>
           )}
         </div>
