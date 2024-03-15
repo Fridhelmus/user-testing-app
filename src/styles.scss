@@ -191,6 +191,21 @@ svg {
   background-color: #45a049;
 }
 
+.listdetail-item {
+  background-color: #edebeb;
+  border: 1px solid $text-light;
+  padding: 0px 24px;
+  width: 24em;
+  cursor: pointer;
+  font-size: x-large;
+  margin-bottom: 10px;
+}
+
+.listdetail-item:hover,
+.listdetail-item:active {
+  background-color: #88cbd1;
+}
+
 #footer {
   position: fixed;
   bottom: 0;
