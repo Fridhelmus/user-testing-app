@@ -1,1 +1,1 @@
-export { ensureAuthenticated } from './helpers';
+export { ensureAuthenticated } from './helpers'

@@ -1,6 +1,8 @@
 dist
 build
+sql
 node_modules
+
 .env
 .prettierrc
 info.txt

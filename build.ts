@@ -7,7 +7,11 @@ esbuild
     entryPoints: ['src/index.tsx'],
     bundle: true,
     outfile: 'dist/bundle.js',
-    loader: { '.ts': 'tsx' }, 
+    define: {
+      'process.env.NODE_ENV': '"development"',
+    },
+    platform: 'node',
+    loader: { '.ts': 'tsx' },
     plugins: [
       cssModulesPlugin({
         localIdentName: '[local]--[hash:8:md5:hex]',

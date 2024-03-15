@@ -1,22 +1,53 @@
-import React, { Dispatch, ReactNode, SetStateAction } from 'react'
-import { questions } from '../data'
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import Result from './Result'
+import { IQuestion } from './types/types'
+import { AuthContext, IAuthContext } from '../context/AuthContext'
 
-interface IProps {
+interface IQuiz {
+  currentTest: number
   counter: number
   correct: number
-  setCounter: Dispatch<SetStateAction<number>>
+  completed: boolean
+  loading: boolean
   setCorrect: Dispatch<SetStateAction<number>>
-  onClickVariant: (index: number) => void
+  setСompleted: Dispatch<SetStateAction<boolean>>
+  onClickVariant: () => void
 }
 
 const Quiz = ({
+  currentTest,
   counter,
-  setCounter,
   onClickVariant,
   setCorrect,
   correct,
-}: IProps) => {
+  completed,
+  setСompleted,
+  loading,
+}: IQuiz) => {
+  const { user } = useContext<IAuthContext>(AuthContext)
+  const [questions, setQuestions] = useState<IQuestion[]>([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user) {
+        setQuestions([])
+        const response = await fetch(`api/test/${currentTest}`)
+        const result = await response.json()
+        setQuestions(result)
+      }
+    }
+
+    fetchData()
+  }, [currentTest, user])
+
+  if (!user) {
+    return <div>Ready for testing ?</div>
+  }
+
+  if (!questions.length || loading) {
+    return <div>Loading...</div>
+  }
+
   const question = questions[counter]
   const percentage = Math.round((counter / questions.length) * 100)
 
@@ -24,18 +55,17 @@ const Quiz = ({
     if (index === question.correct) {
       setCorrect(++correct)
     }
-    onClickVariant(index)
+    onClickVariant()
   }
 
   return (
     <>
-      {counter !== questions.length ? (
+      {counter !== questions.length && !completed ? (
         <>
-          <div className="progress">
+          <div className='progress'>
             <div
               style={{ width: `${percentage}%` }}
-              className="progress__inner"
-            ></div>
+              className='progress__inner'></div>
           </div>
           <h1>{question.title}</h1>
           <ul>
@@ -49,7 +79,14 @@ const Quiz = ({
           </ul>
         </>
       ) : (
-        <Result correct={correct} questions={questions} />
+        <Result
+          correct={correct}
+          counter={counter}
+          completed={completed}
+          setСompleted={setСompleted}
+          questions={questions}
+          currentTest={currentTest}
+        />
       )}
     </>
   )

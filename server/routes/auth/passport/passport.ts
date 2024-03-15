@@ -1,6 +1,6 @@
-import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
-import { authenticateUserByEmail, deserializeUserById } from './../../../db';
+import passport from 'passport'
+import { Strategy as LocalStrategy } from 'passport-local'
+import { authenticateUserByEmail, deserializeUserById } from './../../../db'
 
 passport.use(new LocalStrategy({
         usernameField: 'email',
@@ -8,27 +8,27 @@ passport.use(new LocalStrategy({
     },
     async (email, password, done) => {
         try {
-            const user = await authenticateUserByEmail(email, password);
+            const user = await authenticateUserByEmail(email, password)
 
-            return done(null, (user as Express.User));
+            return done(null, (user as Express.User))
         } catch (error) {
-            return done(error);
+            return done(error)
         }
     }
-));
+))
 
 passport.serializeUser((user: Express.User, done) => {
-    done(null, user.id);
-});
+    done(null, user.id)
+})
 
 passport.deserializeUser(async (id: number, done) => {
     try {
-        const user = await deserializeUserById(id);
+        const user = await deserializeUserById(id)
 
-        done(null, (user as Express.User));
+        done(null, (user as Express.User))
     } catch (error) {
-        done(error, null);
+        done(error, null)
     }
-});
+})
 
 export { passport }
