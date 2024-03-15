@@ -23,7 +23,7 @@ const TestList = ({
   setCorrect,
   setLoading,
 }: ITestList) => {
-  const { user, setUser } = useContext<IAuthContext>(AuthContext)
+  const { user } = useContext<IAuthContext>(AuthContext)
   const [tests, setTests] = useState<ITest[]>([])
 
   const clickHandler = (testId: number) => {
@@ -38,7 +38,7 @@ const TestList = ({
           const response = await fetch(`/api/usertest/${user}/${testId}`)
           if (response.ok) {
             const data = await response.json()
-            if (data.mark) {
+            if (data.mark !== undefined) {
               setСompleted(true)
               setCorrect(data.mark)
             }

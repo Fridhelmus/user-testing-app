@@ -4,7 +4,7 @@ import { IAuthContext, AuthContext } from '../context/AuthContext'
 const Header: React.FC = () => {
   const { user, setUser } = useContext<IAuthContext>(AuthContext)
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleReg = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const target = event.target as typeof event.target & {
       email: { value: string }
@@ -34,6 +34,34 @@ const Header: React.FC = () => {
     }
   }
 
+  const handleLog = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const target = event.target as typeof event.target & {
+      email: { value: string }
+      password: { value: string }
+    }
+    const email = target.email.value
+    const password = target.password.value
+
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    })
+
+    if (response.ok) {
+      setUser(email)
+    } else {
+      console.error('Error logging in:', response.statusText)
+    }
+  }
+
+
   return (
     <header id='header'>
       <div className='container'>
@@ -42,16 +70,23 @@ const Header: React.FC = () => {
           {user ? (
             <p>Welcome, {user}!</p>
           ) : (
-            <form className='nav_menu' onSubmit={handleSubmit}>
-              <input type='email' placeholder='Email' name='email' />
-              <input type='password' placeholder='Password' name='password' />
-              <input
-                type='password'
-                placeholder='Confirm Password'
-                name='confirmPassword'
-              />
-              <button type='submit'>SIGN IN</button>
-            </form>
+            <>
+              <form className='nav_menu' onSubmit={handleReg}>
+                <input type='email' placeholder='Email' name='email' />
+                <input type='password' placeholder='Password' name='password' />
+                <input
+                  type='password'
+                  placeholder='Confirm Password'
+                  name='confirmPassword'
+                />
+                <button type='submit'>SIGN IN</button>
+              </form>
+              <form className='nav_menu' onSubmit={handleLog}>
+                <input type='email' placeholder='Email' name='email' />
+                <input type='password' placeholder='Password' name='password' />
+                <button type='submit'>LOGIN</button>
+              </form>
+            </>
           )}
         </div>
       </div>
